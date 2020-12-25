@@ -6,10 +6,13 @@ class NoteProvider extends GetConnect {
   @override
   void onInit() {
     httpClient.defaultDecoder = (map) => Note.fromJson(map);
-    httpClient.baseUrl = 'YOUR-API-URL';
+    httpClient.baseUrl = 'https://mockend.com/ricbermo/notika/';
   }
 
-  Future<Response<Note>> getNote(int id) async => await get('note/$id');
-  Future<Response<Note>> postNote(Note note) async => await post('note', note);
-  Future<Response> deleteNote(int id) async => await delete('note/$id');
+  Future<Response<List<Note>>> getAllNotes() =>
+      get<List<Note>>('notes', decoder: Note.listFromJson);
+
+  Future<Response<Note>> getNote(int id) async => await get('notes/$id');
+  Future<Response<Note>> postNote(Note note) async => await post('notes', note);
+  Future<Response> deleteNote(int id) async => await delete('notes/$id');
 }
